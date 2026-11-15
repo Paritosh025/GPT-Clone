@@ -543,10 +543,30 @@
     const noticeText = document.getElementById("noticeText");
     const micBtn = document.getElementById("micBtn");
 
+    function createThreadId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+            return window.crypto.randomUUID();
+        }
+
+        if (window.crypto && typeof window.crypto.getRandomValues === "function") {
+            const bytes = new Uint8Array(16);
+            window.crypto.getRandomValues(bytes);
+            bytes[6] = (bytes[6] & 0x0f) | 0x40;
+            bytes[8] = (bytes[8] & 0x3f) | 0x80;
+
+            return [...bytes].map((byte, index) => {
+                const hex = byte.toString(16).padStart(2, "0");
+                return [4, 6, 8, 10].includes(index) ? `-${hex}` : hex;
+            }).join("");
+        }
+
+        return `thread-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
     let threadId = localStorage.getItem("thread_id");
 
     if (!threadId) {
-        threadId = crypto.randomUUID();
+        threadId = createThreadId();
         localStorage.setItem("thread_id", threadId);
     }
 
@@ -1144,7 +1164,7 @@
     }
 
     async function newChat() {
-        threadId = crypto.randomUUID();
+        threadId = createThreadId();
         localStorage.setItem("thread_id", threadId);
 
         if (isDictating) {
