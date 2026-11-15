@@ -111,7 +111,7 @@ TAVILY_API_KEY=your-tavily-api-key
 
 OPENWEATHER_API_KEY=your-openweather-api-key
 
-GOOGLE_API_KEY=your-google-api-key
+OPENAI_API_KEY=your-openai-api-key
 
 LANGSMITH_TRACING=true
 
