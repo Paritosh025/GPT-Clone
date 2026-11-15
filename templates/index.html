@@ -534,6 +534,21 @@
 </main>
 
 <script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [["$", "$"] , ["\\(", "\\)"]],
+            displayMath: [["$$", "$$"], ["\\[", "\\]"]]
+        },
+        options: {
+            skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+        },
+        startup: {
+            typeset: false
+        }
+    };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script>
     const chatContainer = document.getElementById("chatContainer");
     const messageInput = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
@@ -773,7 +788,28 @@
         chatContainer.appendChild(messageDiv);
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
+        if (role !== "user") {
+            renderMath(messageContent);
+        }
+
         return messageContent;
+    }
+
+    function renderMath(element) {
+        const typeset = () => {
+            window.MathJax.typesetClear([element]);
+            window.MathJax.typesetPromise([element]).catch((error) => {
+                console.error("Could not render mathematical notation:", error);
+            });
+        };
+
+        if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
+            typeset();
+        } else if (window.MathJax && window.MathJax.startup) {
+            window.MathJax.startup.promise.then(typeset).catch((error) => {
+                console.error("Could not load mathematical notation:", error);
+            });
+        }
     }
 
     function detectLikelyTool(message) {
@@ -916,7 +952,7 @@
             </div>
 
             <div class="cards" id="cards">
-                <div class="card" onclick="usePrompt('Search the web for latest AI agent news.')">
+                <div class="card" onclick="usePrompt('Search the web for latest news for today.')">
                     Search latest web info
                 </div>
 
@@ -924,7 +960,7 @@
                     Summarize uploaded document
                 </div>
 
-                <div class="card" onclick="usePrompt('Remember that my channel name is dswithbappy.')">
+                <div class="card" onclick="usePrompt('Remember that my  name is Paritosh Sharma.')">
                     Save something to memory
                 </div>
 
@@ -1026,6 +1062,7 @@
                 }
 
                 statusText.textContent = "Ready";
+                renderMath(botElement);
             }
         }
 
