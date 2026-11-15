@@ -91,13 +91,13 @@
 # 6. How to add secret keys to GitHub Actions:
 
 
-REGISTRY=docker.io
+<!-- REGISTRY=docker.io
 
 DOCKER_USERNAME=your-dockerhub-username
 
 DOCKER_PASSWORD=your-dockerhub-access-token
 
-IMAGE_NAME=gpt-clone
+IMAGE_NAME=gpt-clone -->
 
 AWS_ACCESS_KEY_ID=your-aws-access-key
 
