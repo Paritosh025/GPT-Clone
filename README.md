@@ -77,7 +77,7 @@
 	newgrp docker
 
 
-### Note: Do the port mapping to this port:- 8501
+### Note: Do the port mapping to this port:- 8080
 	
 # 5. Configure EC2 as self-hosted runner:
 
